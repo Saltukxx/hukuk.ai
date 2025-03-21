@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hukuk.AI - Yapay Zeka Destekli Hukuki Belge Üretici</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="scale-up-center">
+            <div class="justice-scale">
+                <i class="fas fa-balance-scale"></i>
+            </div>
+            <div class="ai-circuit"></div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-balance-scale"></i> Hukuk.AI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#hero"><i class="fas fa-home"></i> Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features"><i class="fas fa-star"></i> Özellikler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#templates"><i class="fas fa-file-alt"></i> Şablonlar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#ai"><i class="fas fa-robot"></i> Yapay Zeka</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about"><i class="fas fa-info-circle"></i> Hakkında</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 animate__animated animate__fadeInLeft">
+                    <h1 class="hero-title">Hukuk ve Yapay Zeka Birleşiyor</h1>
+                    <p class="hero-description">Hukuk.AI ile dilekçe, ihtarname, dava dilekçesi ve daha birçok hukuki belgeyi kolayca oluşturun. Yapay zeka analizi ile olay örgüsüne uygun kanun maddeleri ve Yargıtay kararları otomatik olarak belgeye dahil edilir.</p>
+                    <div class="hero-buttons">
+                        <a href="#ai" class="btn btn-primary btn-lg">
+                            <i class="fas fa-robot"></i> Yapay Zeka ile Başla
+                        </a>
+                        <a href="#templates" class="btn btn-outline-light btn-lg ms-2">
+                            <i class="fas fa-file-alt"></i> Şablonları Gör
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 animate__animated animate__fadeInRight">
+                    <div class="hero-animation">
+                        <div class="ai-brain-container">
+                            <div class="justice-scale-hero">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <div class="ai-brain">
+                                <div class="pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="shape-divider">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Features Section -->
+        <section id="features" class="section" data-aos="fade-up">
+            <h2 class="section-title"><i class="fas fa-star"></i> Özellikler</h2>
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h5 class="feature-title">Hazır Şablonlar</h5>
+                        <p class="feature-text">Çeşitli hukuki belgeler için hazır şablonlar sayesinde profesyonel belgeler oluşturun.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card highlighted">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h5 class="feature-title">Yapay Zeka Analizi</h5>
+                        <p class="feature-text">Olay örgüsünü yapay zeka ile analiz ederek ilgili kanun maddeleri ve Yargıtay kararlarını tespit eder.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h5 class="feature-title">Hukuki Doğruluk</h5>
+                        <p class="feature-text">Güncel mevzuat ve içtihatlar doğrultusunda doğru ve etkili hukuki belgeler oluşturur.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Integration Visualization -->
+        <section id="ai-visualization" class="section" data-aos="fade-up">
+            <h2 class="section-title"><i class="fas fa-brain"></i> Yapay Zeka ve Hukuk Entegrasyonu</h2>
+            <div class="ai-law-integration">
+                <div class="integration-flow">
+                    <div class="integration-step" data-aos="fade-right" data-aos-delay="100">
+                        <div class="step-number">1</div>
+                        <div class="step-icon"><i class="fas fa-keyboard"></i></div>
+                        <div class="step-content">
+                            <h5>Hukuki Sorununuzu Belirtin</h5>
+                            <p>Basit bir dil ile hukuki durumunuzu anlatın</p>
+                        </div>
+                    </div>
+                    <div class="connection-line"></div>
+                    <div class="integration-step" data-aos="fade-right" data-aos-delay="200">
+                        <div class="step-number">2</div>
+                        <div class="step-icon"><i class="fas fa-brain"></i></div>
+                        <div class="step-content">
+                            <h5>Yapay Zeka Analizi</h5>
+                            <p>İleri düzey NLP teknolojimiz hukuki durumunuzu analiz eder</p>
+                        </div>
+                    </div>
+                    <div class="connection-line"></div>
+                    <div class="integration-step" data-aos="fade-right" data-aos-delay="300">
+                        <div class="step-number">3</div>
+                        <div class="step-icon"><i class="fas fa-search"></i></div>
+                        <div class="step-content">
+                            <h5>Hukuki Kaynak Taraması</h5>
+                            <p>İlgili kanunlar ve Yargıtay kararları otomatik tespit edilir</p>
+                        </div>
+                    </div>
+                    <div class="connection-line"></div>
+                    <div class="integration-step" data-aos="fade-right" data-aos-delay="400">
+                        <div class="step-number">4</div>
+                        <div class="step-icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="step-content">
+                            <h5>Profesyonel Belge Hazırlanır</h5>
+                            <p>Hukuki dayanakları içeren profesyonel belge oluşturulur</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="neural-network">
+                    <div class="nodes">
+                        <div class="node n1"></div>
+                        <div class="node n2"></div>
+                        <div class="node n3"></div>
+                        <div class="node n4"></div>
+                        <div class="node n5"></div>
+                        <div class="node n6"></div>
+                        <div class="node n7"></div>
+                        <div class="node n8"></div>
+                        <div class="node n9"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Templates Section -->
+        <section id="templates" class="section" data-aos="fade-up">
+            <h2 class="section-title"><i class="fas fa-file-alt"></i> Şablonlar</h2>
+            <div class="row">
+                <div class="col-md-4" data-aos="flip-left" data-aos-delay="100">
+                    <div class="template-card">
+                        <div class="template-icon">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <h5 class="template-title">Dilekçe</h5>
+                        <p class="template-text">Genel amaçlı dilekçe şablonu</p>
+                        <a href="#" class="btn btn-primary template-btn" onclick="showTemplateForm('dilekce')">Oluştur</a>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="flip-left" data-aos-delay="200">
+                    <div class="template-card">
+                        <div class="template-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <h5 class="template-title">İhtarname</h5>
+                        <p class="template-text">Resmi uyarı belgesi şablonu</p>
+                        <a href="#" class="btn btn-primary template-btn" onclick="showTemplateForm('ihtarname')">Oluştur</a>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="flip-left" data-aos-delay="300">
+                    <div class="template-card">
+                        <div class="template-icon">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <h5 class="template-title">Dava Dilekçesi</h5>
+                        <p class="template-text">Hukuk davası açmak için kullanılan dilekçe şablonu</p>
+                        <a href="#" class="btn btn-primary template-btn" onclick="showTemplateForm('dava_dilekce')">Oluştur</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Form Section -->
+        <section id="ai" class="section" data-aos="fade-up">
+            <h2 class="section-title"><i class="fas fa-robot"></i> Yapay Zeka Destekli Belge Oluşturma</h2>
+            <div class="ai-form-container">
+                <form id="aiForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="templateSelect" class="form-label">Belge Tipi</label>
+                                <select class="form-select custom-select" id="templateSelect" required>
+                                    <option value="">Belge tipi seçin</option>
+                                    <option value="dilekce">Dilekçe</option>
+                                    <option value="ihtarname">İhtarname</option>
+                                    <option value="vekaletname">Vekaletname</option>
+                                    <option value="dava_dilekce">Dava Dilekçesi</option>
+                                    <option value="temyiz_dilekce">Temyiz Dilekçesi</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="categorySelect" class="form-label">Hukuk Alanı</label>
+                                <select class="form-select custom-select" id="categorySelect" required>
+                                    <option value="">Hukuk alanı seçin</option>
+                                    <option value="iş_hukuku">İş Hukuku</option>
+                                    <option value="aile_hukuku">Aile Hukuku</option>
+                                    <option value="borçlar_hukuku">Borçlar Hukuku</option>
+                                    <option value="ceza_hukuku">Ceza Hukuku</option>
+                                    <option value="tüketici_hukuku">Tüketici Hukuku</option>
+                                    <option value="ticaret_hukuku">Ticaret Hukuku</option>
+                                    <option value="idare_hukuku">İdare Hukuku</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="caseDescription" class="form-label">Olay Örgüsü</label>
+                        <textarea class="form-control" id="caseDescription" rows="6" placeholder="Hukuki durumunuzu detaylı bir şekilde açıklayın..." required></textarea>
+                    </div>
+
+                    <!-- Template specific fields -->
+                    <div id="dilekceFields" class="templateFields" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="kurum" class="form-label">Kurum</label>
+                                    <input type="text" class="form-control" id="kurum" placeholder="Dilekçenin sunulacağı kurum">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="konu" class="form-label">Konu</label>
+                                    <input type="text" class="form-control" id="konu" placeholder="Dilekçe konusu">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ad_soyad" class="form-label">Ad Soyad</label>
+                            <input type="text" class="form-control" id="ad_soyad" placeholder="Ad Soyad">
+                        </div>
+                    </div>
+
+                    <div id="ihtarnameFields" class="templateFields" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="gonderen" class="form-label">İhtar Eden</label>
+                                    <input type="text" class="form-control" id="gonderen" placeholder="İhtarı gönderen kişi/kurum bilgileri">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="alici" class="form-label">Muhatap</label>
+                                    <input type="text" class="form-control" id="alici" placeholder="İhtarın alıcısı kişi/kurum bilgileri">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="konu_ihtarname" class="form-label">Konu</label>
+                                    <input type="text" class="form-control" id="konu_ihtarname" placeholder="İhtar konusu">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="ad_soyad_ihtarname" class="form-label">Ad Soyad</label>
+                                    <input type="text" class="form-control" id="ad_soyad_ihtarname" placeholder="Ad Soyad">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dava_dilekceFields" class="templateFields" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="mahkeme" class="form-label">Mahkeme</label>
+                                    <input type="text" class="form-control" id="mahkeme" placeholder="Mahkeme adı">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="dava_turu" class="form-label">Dava Türü</label>
+                                    <input type="text" class="form-control" id="dava_turu" placeholder="Dava türü">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="davaci" class="form-label">Davacı</label>
+                                    <input type="text" class="form-control" id="davaci" placeholder="Davacı bilgileri">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="davali" class="form-label">Davalı</label>
+                                    <input type="text" class="form-control" id="davali" placeholder="Davalı bilgileri">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="konu_dava" class="form-label">Konu</label>
+                                    <input type="text" class="form-control" id="konu_dava" placeholder="Dava konusu">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="deger" class="form-label">Değer</label>
+                                    <input type="text" class="form-control" id="deger" placeholder="Dava değeri">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="davaci_ad_soyad" class="form-label">Davacı Ad Soyad</label>
+                                    <input type="text" class="form-control" id="davaci_ad_soyad" placeholder="Davacı Ad Soyad">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg submit-btn">
+                            <i class="fas fa-robot"></i> Yapay Zeka ile Belge Oluştur
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="loading" class="text-center mt-4">
+                    <div class="ai-loading-animation">
+                        <div class="brain-waves">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                        <div class="ai-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                    </div>
+                    <p class="loading-text">Yapay zeka analiziniz yapılıyor ve belgeniz hazırlanıyor...</p>
+                </div>
+                
+                <div id="result" class="mt-4">
+                    <div class="alert alert-success">
+                        <h5><i class="fas fa-check-circle"></i> Belgeniz Hazır!</h5>
+                        <p id="resultMessage"></p>
+                        <a id="downloadLink" href="#" class="btn btn-success">
+                            <i class="fas fa-download"></i> Belgeyi İndir
+                        </a>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h5><i class="fas fa-brain"></i> Yapay Zeka Analizi</h5>
+                        </div>
+                        <div class="result-body">
+                            <div class="result-section">
+                                <h6><i class="fas fa-paragraph"></i> İlgili Kanunlar</h6>
+                                <ul id="relevantLaws" class="law-list"></ul>
+                            </div>
+                            
+                            <div class="result-section">
+                                <h6><i class="fas fa-gavel"></i> İlgili Yargıtay Kararları</h6>
+                                <ul id="relevantDecisions" class="decision-list"></ul>
+                            </div>
+                            
+                            <div class="result-section">
+                                <h6><i class="fas fa-balance-scale"></i> Hukuki Analiz</h6>
+                                <div id="legalAnalysis" class="legal-analysis"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section" data-aos="fade-up">
+            <h2 class="section-title"><i class="fas fa-info-circle"></i> Hakkında</h2>
+            <div class="about-content">
+                <div class="row">
+                    <div class="col-md-6" data-aos="fade-right">
+                        <h3>Yapay Zeka ve Hukuk Birlikteliği</h3>
+                        <p>Hukuk.AI, avukatlara ve hukuk profesyonellerine yardımcı olmak için tasarlanmış yapay zeka destekli bir hukuki belge üretim sistemidir. Sistem, Türk hukuk sistemi ve mevzuatı çerçevesinde, kullanıcıların sağladığı bilgileri analiz ederek profesyonel hukuki belgeler hazırlar.</p>
+                        <p>Yapay zeka motoru sayesinde, girilen olay örgüsü analiz edilir, ilgili kanun maddeleri ve Yargıtay kararları tespit edilir ve hukuki dayanaklar ile birlikte belgeye dahil edilir.</p>
+                    </div>
+                    <div class="col-md-6" data-aos="fade-left">
+                        <div class="about-image">
+                            <div class="ai-law-image">
+                                <div class="scales">
+                                    <i class="fas fa-balance-scale"></i>
+                                </div>
+                                <div class="ai-circuits">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-balance-scale"></i> Hukuk.AI</h5>
+                    <p>Yapay zeka destekli hukuki belge üretim sistemi</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Hızlı Erişim</h5>
+                    <ul class="footer-links">
+                        <li><a href="#hero"><i class="fas fa-chevron-right"></i> Ana Sayfa</a></li>
+                        <li><a href="#features"><i class="fas fa-chevron-right"></i> Özellikler</a></li>
+                        <li><a href="#templates"><i class="fas fa-chevron-right"></i> Şablonlar</a></li>
+                        <li><a href="#ai"><i class="fas fa-chevron-right"></i> Yapay Zeka</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>İletişim</h5>
+                    <p><i class="fas fa-envelope"></i> info@hukuk.ai</p>
+                    <p><i class="fas fa-phone"></i> +90 212 123 4567</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright text-center">
+                <p>© 2023 Hukuk.AI - Tüm Hakları Saklıdır</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+</html> 
