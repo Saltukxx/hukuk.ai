@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hukuk.AI - Yapay Zeka Destekli Hukuki Belge Üretici</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <span class="text-primary">Hukuk</span><span class="text-secondary">.AI</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Ana Sayfa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Özellikler</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">Hakkında</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">Hukuk ve Yapay Zeka Birleşiyor</h1>
+                    <p class="hero-description">
+                        Hukuk.AI ile dilekçe, ihtarname, dava dilekçesi ve daha birçok hukuki belgeyi kolayca oluşturun. 
+                        Yapay zeka analizi ile olay örgüsüne uygun kanun maddeleri ve Yargıtay kararları otomatik olarak belgeye dahil edilir.
+                    </p>
+                    <div class="alert alert-warning">
+                        <strong>Not:</strong> Bu demo sayfası sadece GitHub Pages üzerinde statik bir görünüm sunmaktadır. 
+                        Tam işlevsellik için uygulamanın yerel olarak veya bir sunucuda çalıştırılması gerekmektedir.
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card form-card">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">Belge Oluştur</h4>
+                            <form id="documentForm">
+                                <div class="mb-3">
+                                    <label for="templateSelect" class="form-label">Şablon Türü</label>
+                                    <select class="form-select" id="templateSelect" required>
+                                        <option value="" selected disabled>Şablon seçiniz</option>
+                                        <option value="dava_dilekcesi">Dava Dilekçesi</option>
+                                        <option value="ihtarname">İhtarname</option>
+                                        <option value="itiraz_dilekcesi">İtiraz Dilekçesi</option>
+                                        <option value="temyiz_dilekcesi">Temyiz Dilekçesi</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="categorySelect" class="form-label">Hukuk Alanı</label>
+                                    <select class="form-select" id="categorySelect" required>
+                                        <option value="" selected disabled>Alan seçiniz</option>
+                                        <option value="is_hukuku">İş Hukuku</option>
+                                        <option value="ticaret_hukuku">Ticaret Hukuku</option>
+                                        <option value="aile_hukuku">Aile Hukuku</option>
+                                        <option value="borçlar_hukuku">Borçlar Hukuku</option>
+                                        <option value="icra_hukuku">İcra Hukuku</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="documentContent" class="form-label">Olay Özeti</label>
+                                    <textarea class="form-control" id="documentContent" rows="5" placeholder="Dava konusu olayı kısaca anlatınız..." required></textarea>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        <span id="generateText">Belge Oluştur</span>
+                                        <div id="loading" class="spinner-border spinner-border-sm ms-2" role="status" style="display: none;">
+                                            <span class="visually-hidden">Yükleniyor...</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="result" class="result-section" style="display: none;">
+        <div class="container">
+            <div class="card result-card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Belge İnceleme</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-header"><strong>İlgili Kanunlar</strong></div>
+                                <div class="card-body" id="relevantLaws">
+                                    <p>Bu demo sürümünde gerçek veriler gösterilmemektedir.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-header"><strong>İlgili Kararlar</strong></div>
+                                <div class="card-body" id="relevantDecisions">
+                                    <p>Bu demo sürümünde gerçek veriler gösterilmemektedir.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-header"><strong>Hukuki Analiz</strong></div>
+                                <div class="card-body" id="legalAnalysis">
+                                    <p>Bu demo sürümünde gerçek veriler gösterilmemektedir.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">Oluşturulan Belge</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="documentPreview" class="document-preview">
+                                        <p>Bu demo sürümünde gerçek belge oluşturulmamaktadır. GitHub Pages'ta sadece statik içerik gösterilmektedir.</p>
+                                        <p>Tam işlevsellik için uygulamayı yerel olarak veya bir sunucuda çalıştırmanız gerekmektedir.</p>
+                                    </div>
+                                    <div class="mt-4">
+                                        <button class="btn btn-outline-primary" disabled>
+                                            <i class="fas fa-download me-2"></i> Belgeyi İndir (Demo)
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2>Özellikler</h2>
+                <p>Hukuk.AI'ın sunduğu yenilikçi özellikler</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">📝</div>
+                        <h5 class="feature-title">Hazır Şablonlar</h5>
+                        <p class="feature-text">Çeşitli hukuki belgeler için hazır şablonlar sayesinde profesyonel belgeler oluşturun.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h5 class="feature-title">Yapay Zeka Analizi</h5>
+                        <p class="feature-text">Olay örgüsünü yapay zeka ile analiz ederek ilgili kanun maddeleri ve Yargıtay kararlarını tespit eder.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚖️</div>
+                        <h5 class="feature-title">Hukuki Doğruluk</h5>
+                        <p class="feature-text">Güncel mevzuat ve içtihatlar doğrultusunda doğru ve etkili hukuki belgeler oluşturur.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h5 class="feature-title">Yasal Referanslar</h5>
+                        <p class="feature-text">Oluşturulan belgelerde ilgili yasa maddeleri ve içtihatlar otomatik olarak referans gösterilir.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h5 class="feature-title">Hukuki Analiz</h5>
+                        <p class="feature-text">Olayları hukuki açıdan değerlendirerek güçlü argümanlar sunan analiz raporları oluşturur.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">💼</div>
+                        <h5 class="feature-title">Profesyonel Format</h5>
+                        <p class="feature-text">Belgeler, mahkemeler ve resmi kurumlar tarafından kabul edilen profesyonel formatlarda hazırlanır.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title">Hukuk.AI Hakkında</h2>
+                    <p>Hukuk.AI, Türkiye'deki hukuk profesyonelleri ve hukuki danışmanlık ihtiyacı olan herkes için geliştirilmiş yapay zeka destekli bir belge oluşturma platformudur.</p>
+                    <p>Projemiz, hukuki süreçleri hızlandırmak, belge hazırlama maliyetlerini düşürmek ve kaliteli hukuki belgeler oluşturmayı herkes için erişilebilir kılmak amacıyla geliştirilmiştir.</p>
+                    <p>Google Gemini AI teknolojisini kullanan platformumuz, Türk hukuk sistemi için özel olarak eğitilmiş modellerle çalışmaktadır.</p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="tech-stack-container">
+                        <h4>Kullanılan Teknolojiler</h4>
+                        <div class="tech-items">
+                            <div class="tech-item">
+                                <span class="tech-icon">🐍</span>
+                                <span class="tech-name">Python + FastAPI</span>
+                            </div>
+                            <div class="tech-item">
+                                <span class="tech-icon">🤖</span>
+                                <span class="tech-name">Google Gemini AI</span>
+                            </div>
+                            <div class="tech-item">
+                                <span class="tech-icon">📄</span>
+                                <span class="tech-name">Python-docx</span>
+                            </div>
+                            <div class="tech-item">
+                                <span class="tech-icon">💾</span>
+                                <span class="tech-name">SQLite</span>
+                            </div>
+                            <div class="tech-item">
+                                <span class="tech-icon">🌐</span>
+                                <span class="tech-name">HTML/CSS/JavaScript</span>
+                            </div>
+                            <div class="tech-item">
+                                <span class="tech-icon">🔄</span>
+                                <span class="tech-name">Bootstrap</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Hukuk.AI</h5>
+                    <p>Yapay zeka destekli hukuki belge üretim sistemi</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>© 2025 Hukuk.AI - Tüm Hakları Saklıdır</p>
+                    <p><a href="https://github.com/Saltukxx/hukuk.ai" target="_blank" class="text-white">GitHub</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Demo functionality for GitHub Pages
+        document.getElementById('documentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Hide previous results
+            document.getElementById('result').style.display = 'none';
+            
+            // Show loading animation
+            document.getElementById('loading').style.display = 'inline-block';
+            document.getElementById('generateText').textContent = 'İşleniyor...';
+            
+            // Simulate processing delay
+            setTimeout(function() {
+                // Hide loading animation
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('generateText').textContent = 'Belge Oluştur';
+                
+                // Show results section
+                document.getElementById('result').style.display = 'block';
+                
+                // Scroll to results
+                document.getElementById('result').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }, 2000);
+        });
+    </script>
+</body>
+</html> 
