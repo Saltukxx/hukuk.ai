@@ -1,0 +1,9 @@
+[2025-03-22 02:51:30.897002] ERROR ID: 1742608290 - type object 'Document' has no attribute 'Document'
+Request: {"template_name":"dava_dilekce","template_data":{"mahkeme":"anayasa","dava_turu":"bosanma","davaci":"saltuk","davali":"mlik","konu":"Bosanma","deger":"1","davaci_ad_soyad":"saltuk gogebakan","deliller":["videolar","mesajlar"],"aciklamalar":"Açıklamalar oluşturulacak","hukuki_sebepler":"Hukuki sebepler oluşturulacak","sonuc_talep":"Sonuç ve talep oluşturulacak"},"case_description":"esimden ayrilmak istiyorum.","case_category":"aile_hukuku","metadata":{"source":"web_interface","created_at":"2025-03-22T01:51:18.433Z"}}
+--------------------------------------------------
+[2025-03-22 15:29:40.655810] ERROR ID: 1742653780 - type object 'Document' has no attribute 'Document'
+Request: {"template_name":"dilekce","template_data":{"kurum":"Emniyet","konu":"Bosanma","ad_soyad":"Saltuk Gogebakan"},"case_description":"melik aykuttan bosanmak istiyorum. elimde kanitlar var. video ve resim.","case_category":"aile_hukuku","metadata":{"source":"web_interface","created_at":"2025-03-22T14:29:33.035Z"}}
+--------------------------------------------------
+[2025-03-22 15:36:32.090513] ERROR ID: 1742654192 - 'template_name' is an invalid keyword argument for Document
+Request: {"template_name":"dilekce","template_data":{"kurum":"Emniyet","konu":"Bosanma","ad_soyad":"Saltuk Gogebakan"},"case_description":"bosanmak istiyorum esim bana siddet uyguluyor. elimde kanit olarak videolar mevcut.","case_category":"aile_hukuku","metadata":{"source":"web_interface","created_at":"2025-03-22T14:36:21.464Z"}}
+--------------------------------------------------

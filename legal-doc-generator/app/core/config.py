@@ -1,46 +1,63 @@
-# app/core/config.py
-from typing import List
-from pydantic import field_validator  # Add this import
-from pydantic_settings import BaseSettings, SettingsConfigDict
+"""
+Configuration settings for the legal document generator application.
+"""
 
-class Settings(BaseSettings):
-    # Project info
-    PROJECT_NAME: str = "Legal Document Generator"
-    API_V1_STR: str = "/api/v1"
-    
-    # CORS
-    BACKEND_CORS_ORIGINS: List[str] = ["*"]
-    
-    # Database
-    POSTGRES_SERVER: str = "localhost"
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "Saltukalp123"
-    POSTGRES_DB: str = "legal_docs"
-    DATABASE_URL: str = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}/{POSTGRES_DB}"
-    
-    # Search (optional for now)
-    ELASTICSEARCH_HOST: str | None = None
-    PINECONE_API_KEY: str | None = None
-    PINECONE_ENVIRONMENT: str | None = None
-    
-    # Security
-    SECRET_KEY: str = "your-secret-key-here"
-    ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
-    
-    # Use ConfigDict instead of Config class
-    model_config = SettingsConfigDict(
-        case_sensitive=True,
-        env_file=".env",
-        extra="allow"  # Allow extra fields
-    )
-    
-    @field_validator("BACKEND_CORS_ORIGINS", mode='before')
-    def assemble_cors_origins(cls, v: str | List[str]) -> List[str] | str:
-        if isinstance(v, str) and not v.startswith("["):
-            return [i.strip() for i in v.split(",")]
-        elif isinstance(v, (list, str)):
-            return v
-        raise ValueError(v)
+import os
+from typing import Optional
+from pathlib import Path
+from dotenv import load_dotenv
 
-settings = Settings()
+# Load environment variables from .env file
+# Look for .env file in project root
+env_path = Path(__file__).resolve().parent.parent.parent / '.env'
+if env_path.exists():
+    load_dotenv(dotenv_path=env_path)
+    print(f"Loaded environment variables from {env_path}")
+else:
+    load_dotenv()  # Try to load from default locations
+    print("No .env file found at root, attempting to load from default locations")
+
+# Base directories
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+APP_DIR = ROOT_DIR / "app"
+OUTPUT_DIR = APP_DIR / "output"
+LOGS_DIR = APP_DIR / "logs"
+DATA_DIR = APP_DIR / "data"
+
+# Ensure directories exist
+OUTPUT_DIR.mkdir(exist_ok=True)
+LOGS_DIR.mkdir(exist_ok=True)
+DATA_DIR.mkdir(exist_ok=True)
+
+# Application settings
+APP_NAME = "Hukuk.AI Legal Document Generator"
+APP_VERSION = "1.0.0"
+DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
+
+# API Keys
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+if GEMINI_API_KEY:
+    print("Gemini API key found in environment variables")
+else:
+    print("Warning: No Gemini API key found in environment variables")
+
+# API Settings
+API_USE_MOCK_DATA = os.getenv("API_USE_MOCK_DATA", "True").lower() in ("true", "1", "t")
+
+# Logging configuration
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+LOG_FILE = LOGS_DIR / "app.log"
+
+# Document generation settings
+DEFAULT_TEMPLATE = DATA_DIR / "templates" / "default_template.docx"
+MAX_FILE_SIZE_MB = 10
+
+# Function to get the API key safely
+def get_gemini_api_key() -> Optional[str]:
+    """
+    Returns the Gemini API key if available
+    
+    Returns:
+        Optional[str]: The API key or None if not configured
+    """
+    return GEMINI_API_KEY if GEMINI_API_KEY else None 

@@ -1,307 +1,379 @@
-# app/services/document_generator.py
-from typing import Dict, Any, Optional, List
-from datetime import datetime
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
-from reportlab.lib.units import cm, mm
-from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT, TA_JUSTIFY
-from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
-    PageBreak, Image, Flowable, HRFlowable
-)
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.lib import colors
-import io
+"""
+Document Generator Service
+This module handles the generation of legal documents from templates.
+"""
+
 import os
+import re
+import json
+import uuid
+from datetime import datetime
+from docx import Document
+from docx.shared import Pt, Cm
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+import logging
 
-class LineBreak(Flowable):
-    """Custom line break with thickness control"""
-    def __init__(self, width, thickness=0.5):
-        Flowable.__init__(self)
-        self.width = width
-        self.thickness = thickness
-
-    def draw(self):
-        self.canv.setLineWidth(self.thickness)
-        self.canv.line(0, 0, self.width, 0)
+logger = logging.getLogger(__name__)
 
 class DocumentGenerator:
-    """Enhanced legal document generator with professional formatting"""
-    
-    def __init__(self):
-        self._setup_fonts()
-        self._setup_styles()
-        self._setup_colors()
-        
-    def _setup_fonts(self):
-        """Setup professional fonts with Turkish support"""
-        try:
-            # Primary font
-            pdfmetrics.registerFont(TTFont('TimesNewRoman', 'C:/Windows/Fonts/times.ttf'))
-            pdfmetrics.registerFont(TTFont('TimesNewRomanBold', 'C:/Windows/Fonts/timesbd.ttf'))
-            pdfmetrics.registerFont(TTFont('TimesNewRomanItalic', 'C:/Windows/Fonts/timesi.ttf'))
-            
-            self.main_font = 'TimesNewRoman'
-            self.bold_font = 'TimesNewRomanBold'
-            self.italic_font = 'TimesNewRomanItalic'
-        except:
-            # Fallback fonts
-            print("Warning: Times New Roman not found, using fallback font")
-            self.main_font = 'Helvetica'
-            self.bold_font = 'Helvetica-Bold'
-            self.italic_font = 'Helvetica-Oblique'
+    """Handles the generation of legal documents from templates"""
 
-    def _setup_colors(self):
-        """Setup professional color scheme"""
-        self.colors = {
-            'header': colors.HexColor('#000000'),  # Pure black for headers
-            'text': colors.HexColor('#1A1A1A'),    # Soft black for body text
-            'accent': colors.HexColor('#2C3E50'),  # Professional blue for accents
-            'line': colors.HexColor('#34495E')     # Darker blue for lines
+    def __init__(self):
+        """Initialize the document generator service"""
+        self.output_dir = os.path.join("app", "output")
+        # Ensure output directory exists
+        os.makedirs(self.output_dir, exist_ok=True)
+        logger.info("DocumentGenerator initialized")
+
+    async def generate_document(self, template_name, template_data, output_format="docx"):
+        """
+        Generate a document based on a template and provided data.
+        
+        Args:
+            template_name (str): The name of the template to use
+            template_data (dict): The data to fill the template with
+            output_format (str): The output format (currently only 'docx' is supported)
+            
+        Returns:
+            dict: Results including the document path
+        """
+        logger.info(f"Generating document for template: {template_name}")
+        
+        # Sanitize inputs to prevent path traversal
+        template_name = self._sanitize_filename(template_name)
+        
+        # Generate a unique document ID
+        document_id = str(uuid.uuid4())
+        
+        # Generate the document
+        docx_file_path = await self._generate_docx(template_name, template_data, document_id)
+        
+        # Return the result
+        return {
+            "document_id": document_id,
+            "document_path": docx_file_path,
+            "template_name": template_name,
+            "created_at": datetime.now().isoformat()
         }
 
-    def _setup_styles(self):
-        """Setup enhanced document styles"""
-        self.styles = getSampleStyleSheet()
+    async def _generate_docx(self, template_name, template_data, document_id):
+        """
+        Generate a Microsoft Word document from template data
         
-        # Main Header (Court Information)
-        self.styles.add(ParagraphStyle(
-            name='CourtHeader',
-            fontName=self.bold_font,
-            fontSize=14,
-            alignment=TA_CENTER,
-            spaceAfter=20,
-            leading=16,
-            textColor=self.colors['header']
-        ))
-        
-        # Section Headers
-        self.styles.add(ParagraphStyle(
-            name='SectionHeader',
-            fontName=self.bold_font,
-            fontSize=12,
-            alignment=TA_LEFT,
-            spaceAfter=12,
-            spaceBefore=12,
-            leading=14,
-            textColor=self.colors['header']
-        ))
-        
-        # Normal Text
-        self.styles.add(ParagraphStyle(
-            name='NormalText',
-            fontName=self.main_font,
-            fontSize=11,
-            alignment=TA_JUSTIFY,
-            spaceAfter=8,
-            leading=14,
-            textColor=self.colors['text']
-        ))
-        
-        # Party Information
-        self.styles.add(ParagraphStyle(
-            name='PartyInfo',
-            fontName=self.main_font,
-            fontSize=11,
-            alignment=TA_LEFT,
-            spaceAfter=3,
-            leading=14,
-            leftIndent=20,
-            textColor=self.colors['text']
-        ))
-        
-        # List Items
-        self.styles.add(ParagraphStyle(
-            name='ListItem',
-            fontName=self.main_font,
-            fontSize=11,
-            alignment=TA_JUSTIFY,
-            spaceAfter=8,
-            leading=14,
-            leftIndent=20,
-            bulletIndent=12,
-            textColor=self.colors['text']
-        ))
-        
-        # Signature Block
-        self.styles.add(ParagraphStyle(
-            name='Signature',
-            fontName=self.main_font,
-            fontSize=11,
-            alignment=TA_RIGHT,
-            spaceAfter=30,
-            leading=14,
-            textColor=self.colors['text']
-        ))
-
-    def generate_dilekce(self, template_data: Dict[str, Any]) -> bytes:
-        """Generate an enhanced dilekçe with professional formatting"""
-        buffer = io.BytesIO()
-        
-        # Create document with refined margins
-        doc = SimpleDocTemplate(
-            buffer,
-            pagesize=A4,
-            rightMargin=2.5*cm,
-            leftMargin=2.5*cm,
-            topMargin=2.5*cm,
-            bottomMargin=2.5*cm,
-            title=template_data.get('subject', 'Dilekçe'),
-            author=template_data.get('plaintiff', {}).get('name', '')
-        )
-        
-        story = []
-        
-        # Add letterhead if provided
-        if template_data.get('letterhead'):
-            story.append(Image(template_data['letterhead'], width=18*cm, height=2*cm))
-            story.append(Spacer(1, 1*cm))
-        
-        # Court Header with enhanced formatting
-        court_header = []
-        court_header.append("T.C.")
-        court_header.append(f"{template_data.get('city', '')} ")
-        court_header.append(f"{template_data.get('court_type', '')} MAHKEMESİ")
-        court_header.append("SAYIN HAKİMLİĞİNE")
-        
-        for line in court_header:
-            story.append(Paragraph(line, self.styles['CourtHeader']))
-        
-        story.append(HRFlowable(
-            width="100%",
-            thickness=0.5,
-            color=self.colors['line'],
-            spaceBefore=10,
-            spaceAfter=20
-        ))
-        
-        # Party Information with enhanced layout
-        for party_type, party_data in [
-            ("DAVACI", template_data.get('plaintiff', {})),
-            ("DAVALI", template_data.get('defendant', {}))
-        ]:
-            story.append(Paragraph(party_type, self.styles['SectionHeader']))
-            party_info = self._format_party_info(party_data)
-            for line in party_info:
-                story.append(Paragraph(line, self.styles['PartyInfo']))
-            story.append(Spacer(1, 0.5*cm))
-        
-        # Subject with visual separator
-        story.append(HRFlowable(
-            width="100%",
-            thickness=0.3,
-            color=self.colors['line'],
-            spaceBefore=10,
-            spaceAfter=10
-        ))
-        story.append(Paragraph(
-            f"KONU: {template_data.get('subject', '')}",
-            self.styles['SectionHeader']
-        ))
-        
-        # Facts with enhanced formatting
-        story.append(Paragraph("AÇIKLAMALAR:", self.styles['SectionHeader']))
-        facts = template_data.get('facts', [])
-        for i, fact in enumerate(facts, 1):
-            story.append(Paragraph(
-                f"{i}. {fact}",
-                self.styles['ListItem']
-            ))
-        
-        # Legal Grounds with professional numbering
-        if template_data.get('legal_grounds'):
-            story.append(Paragraph("HUKUKİ SEBEPLER:", self.styles['SectionHeader']))
-            for ground in template_data['legal_grounds']:
-                story.append(Paragraph(
-                    f"• {ground}",
-                    self.styles['ListItem']
-                ))
-        
-        # Evidence with clear separation
-        if template_data.get('evidence'):
-            story.append(Paragraph("DELİLLER:", self.styles['SectionHeader']))
-            evidence_table_data = [[f"• {item}"] for item in template_data['evidence']]
-            evidence_table = Table(
-                evidence_table_data,
-                colWidths=[doc.width],
-                style=TableStyle([
-                    ('FONTNAME', (0, 0), (-1, -1), self.main_font),
-                    ('FONTSIZE', (0, 0), (-1, -1), 11),
-                    ('TEXTCOLOR', (0, 0), (-1, -1), self.colors['text']),
-                    ('LEFTPADDING', (0, 0), (-1, -1), 20),
-                    ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
-                ])
-            )
-            story.append(evidence_table)
-        
-        # Requests with enhanced visibility
-        story.append(Paragraph("SONUÇ VE İSTEM:", self.styles['SectionHeader']))
-        requests = template_data.get('requests', [])
-        for request in requests:
-            story.append(Paragraph(
-                f"• {request}",
-                self.styles['ListItem']
-            ))
-        
-        # Professional signature block
-        date = template_data.get('date', datetime.now().strftime("%d/%m/%Y"))
-        signature_block = [
-            Spacer(1, 1*cm),
-            Paragraph(date, self.styles['Signature']),
-            Spacer(1, 1*cm),
-            Paragraph(
-                f"Davacı<br/>{template_data.get('plaintiff', {}).get('name', '')}",
-                self.styles['Signature']
-            )
-        ]
-        story.extend(signature_block)
-        
-        # Build PDF with enhanced metadata
-        doc.build(
-            story,
-            onFirstPage=self._add_page_number,
-            onLaterPages=self._add_page_number
-        )
-        
-        pdf_bytes = buffer.getvalue()
-        buffer.close()
-        return pdf_bytes
-
-    def _add_page_number(self, canvas, doc):
-        """Add professional page numbering"""
-        page_num = canvas.getPageNumber()
-        text = f"Sayfa {page_num}"
-        canvas.saveState()
-        canvas.setFont(self.main_font, 9)
-        canvas.setFillColor(self.colors['text'])
-        canvas.drawRightString(
-            doc.pagesize[0] - doc.rightMargin,
-            doc.bottomMargin/2,
-            text
-        )
-        canvas.restoreState()
-
-    def _format_party_info(self, party: Dict[str, Any]) -> List[str]:
-        """Format party information with enhanced layout"""
-        info = []
-        
-        if party.get('name'):
-            info.append(f"<b>Adı Soyadı:</b> {party['name']}")
-        
-        if party.get('tc_no'):
-            info.append(f"<b>T.C. Kimlik No:</b> {party['tc_no']}")
+        Args:
+            template_name (str): The name of the template to use
+            template_data (dict): The data to fill the template with
+            document_id (str): The unique document ID
             
-        if party.get('address'):
-            info.append(f"<b>Adres:</b> {party['address']}")
-            
-        if party.get('vekil'):
-            info.append(f"<b>Vekili:</b> {party['vekil']}")
-            
-        if party.get('email'):
-            info.append(f"<b>E-posta:</b> {party['email']}")
-            
-        if party.get('phone'):
-            info.append(f"<b>Telefon:</b> {party['phone']}")
-            
-        return info
+        Returns:
+            str: The path to the generated document
+        """
+        # Create a new Word document
+        doc = Document()
+        
+        # Set margin
+        for section in doc.sections:
+            section.left_margin = Cm(2.5)
+            section.right_margin = Cm(2.5)
+            section.top_margin = Cm(2.5)
+            section.bottom_margin = Cm(2.5)
+        
+        if template_name == "dilekce":
+            return await self._generate_dilekce(doc, template_data, document_id)
+        elif template_name == "ihtarname":
+            return await self._generate_ihtarname(doc, template_data, document_id)
+        elif template_name == "vekaletname":
+            return await self._generate_vekaletname(doc, template_data, document_id)
+        elif template_name == "dava_dilekce":
+            return await self._generate_dava_dilekce(doc, template_data, document_id)
+        else:
+            return await self._generate_generic(doc, template_name, template_data, document_id)
+    
+    async def _generate_dilekce(self, doc, template_data, document_id):
+        """Generate a petition document"""
+        # Title
+        title = doc.add_paragraph()
+        title_run = title.add_run("DİLEKÇE")
+        title_run.bold = True
+        title_run.font.size = Pt(14)
+        title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        
+        # Recipient
+        recipient = doc.add_paragraph()
+        recipient_run = recipient.add_run(template_data.get("kurum", "").upper())
+        recipient_run.bold = True
+        recipient.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        
+        # Subject
+        subject = doc.add_paragraph()
+        subject.add_run("Konu: ").bold = True
+        subject.add_run(template_data.get("konu", ""))
+        
+        # Content
+        doc.add_paragraph().add_run()  # Empty line
+        content = doc.add_paragraph()
+        content.add_run(template_data.get("icerik", ""))
+        
+        # Signature
+        doc.add_paragraph().add_run()  # Empty line
+        signature = doc.add_paragraph()
+        signature.add_run("Saygılarımla,")
+        signature.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        
+        # Name
+        name = doc.add_paragraph()
+        name.add_run(template_data.get("ad_soyad", ""))
+        name.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        
+        # Attachments
+        if "ekler" in template_data and template_data["ekler"]:
+            doc.add_paragraph().add_run()  # Empty line
+            attachments = doc.add_paragraph()
+            attachments.add_run("Ekler:").bold = True
+            if isinstance(template_data["ekler"], list):
+                for i, attachment in enumerate(template_data["ekler"], 1):
+                    attachments.add_run(f"\n{i}. {attachment}")
+            else:
+                attachments.add_run(f"\n{template_data['ekler']}")
+        
+        # Save the document
+        file_path = os.path.join(self.output_dir, f"dilekce_{document_id}.docx")
+        doc.save(file_path)
+        
+        return file_path
+    
+    async def _generate_ihtarname(self, doc, template_data, document_id):
+        """Generate a formal warning document"""
+        # Title
+        title = doc.add_paragraph()
+        title_run = title.add_run("İHTARNAME")
+        title_run.bold = True
+        title_run.font.size = Pt(14)
+        title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        
+        # Sender
+        sender_title = doc.add_paragraph()
+        sender_title.add_run("Gönderen: ").bold = True
+        sender = doc.add_paragraph()
+        sender.add_run(template_data.get("gonderen", ""))
+        
+        # Recipient
+        recipient_title = doc.add_paragraph()
+        recipient_title.add_run("Muhatap: ").bold = True
+        recipient = doc.add_paragraph()
+        recipient.add_run(template_data.get("alici", ""))
+        
+        # Subject
+        subject = doc.add_paragraph()
+        subject.add_run("Konu: ").bold = True
+        subject.add_run(template_data.get("konu", ""))
+        
+        # Content
+        doc.add_paragraph().add_run()  # Empty line
+        content = doc.add_paragraph()
+        content.add_run(template_data.get("icerik", ""))
+        
+        # Conclusion
+        doc.add_paragraph().add_run()  # Empty line
+        conclusion = doc.add_paragraph()
+        conclusion.add_run("Sonuç ve Talep: ").bold = True
+        conclusion.add_run(template_data.get("sonuc_talep", ""))
+        
+        # Signature
+        doc.add_paragraph().add_run()  # Empty line
+        signature = doc.add_paragraph()
+        signature.add_run("Saygılarımla,")
+        signature.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        
+        # Name
+        name = doc.add_paragraph()
+        name.add_run(template_data.get("ad_soyad", ""))
+        name.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        
+        # Save the document
+        file_path = os.path.join(self.output_dir, f"ihtarname_{document_id}.docx")
+        doc.save(file_path)
+        
+        return file_path
+    
+    async def _generate_vekaletname(self, doc, template_data, document_id):
+        """Generate a power of attorney document"""
+        # Title
+        title = doc.add_paragraph()
+        title_run = title.add_run("VEKALETNAME")
+        title_run.bold = True
+        title_run.font.size = Pt(14)
+        title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        
+        # Principal
+        principal_title = doc.add_paragraph()
+        principal_title.add_run("Vekil Eden: ").bold = True
+        principal = doc.add_paragraph()
+        principal.add_run(template_data.get("vekil_eden", ""))
+        
+        # Attorney
+        attorney_title = doc.add_paragraph()
+        attorney_title.add_run("Vekil: ").bold = True
+        attorney = doc.add_paragraph()
+        attorney.add_run(template_data.get("vekil", ""))
+        
+        # Content
+        doc.add_paragraph().add_run()  # Empty line
+        content = doc.add_paragraph()
+        content.add_run(template_data.get("icerik", ""))
+        
+        # Powers
+        doc.add_paragraph().add_run()  # Empty line
+        powers_title = doc.add_paragraph()
+        powers_title.add_run("Verilen Yetkiler:").bold = True
+        
+        if "yetkiler" in template_data:
+            powers = doc.add_paragraph()
+            if isinstance(template_data["yetkiler"], list):
+                for i, power in enumerate(template_data["yetkiler"], 1):
+                    powers.add_run(f"{i}. {power}\n")
+            else:
+                powers.add_run(template_data["yetkiler"])
+        
+        # Signature
+        doc.add_paragraph().add_run()  # Empty line
+        signature = doc.add_paragraph()
+        signature.add_run("Tarih: " + datetime.now().strftime("%d/%m/%Y"))
+        signature.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        
+        # Name
+        name = doc.add_paragraph()
+        name.add_run(template_data.get("ad_soyad", ""))
+        name.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        
+        # Save the document
+        file_path = os.path.join(self.output_dir, f"vekaletname_{document_id}.docx")
+        doc.save(file_path)
+        
+        return file_path
+    
+    async def _generate_dava_dilekce(self, doc, template_data, document_id):
+        """Generate a lawsuit petition document"""
+        # Title
+        title = doc.add_paragraph()
+        title_run = title.add_run(template_data.get("mahkeme", "").upper())
+        title_run.bold = True
+        title_run.font.size = Pt(12)
+        title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        
+        subtitle = doc.add_paragraph()
+        subtitle_run = subtitle.add_run(template_data.get("dava_turu", "").upper() + " DAVASI DİLEKÇESİ")
+        subtitle_run.bold = True
+        subtitle.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        
+        # Parties
+        doc.add_paragraph().add_run()  # Empty line
+        plaintiff_title = doc.add_paragraph()
+        plaintiff_title.add_run("Davacı: ").bold = True
+        plaintiff = doc.add_paragraph()
+        plaintiff.add_run(template_data.get("davaci", ""))
+        
+        defendant_title = doc.add_paragraph()
+        defendant_title.add_run("Davalı: ").bold = True
+        defendant = doc.add_paragraph()
+        defendant.add_run(template_data.get("davali", ""))
+        
+        # Subject
+        subject = doc.add_paragraph()
+        subject.add_run("Konu: ").bold = True
+        subject.add_run(template_data.get("konu", ""))
+        
+        # Value
+        value = doc.add_paragraph()
+        value.add_run("Dava Değeri: ").bold = True
+        value.add_run(template_data.get("deger", ""))
+        
+        # Content
+        doc.add_paragraph().add_run()  # Empty line
+        content = doc.add_paragraph()
+        content.add_run(template_data.get("aciklamalar", ""))
+        
+        # Evidence
+        if "deliller" in template_data:
+            doc.add_paragraph().add_run()  # Empty line
+            evidence_title = doc.add_paragraph()
+            evidence_title.add_run("Deliller:").bold = True
+            evidence = doc.add_paragraph()
+            if isinstance(template_data["deliller"], list):
+                for i, item in enumerate(template_data["deliller"], 1):
+                    evidence.add_run(f"{i}. {item}\n")
+            else:
+                evidence.add_run(template_data["deliller"])
+        
+        # Legal basis
+        if "hukuki_sebepler" in template_data:
+            doc.add_paragraph().add_run()  # Empty line
+            legal_title = doc.add_paragraph()
+            legal_title.add_run("Hukuki Sebepler:").bold = True
+            legal = doc.add_paragraph()
+            legal.add_run(template_data.get("hukuki_sebepler", ""))
+        
+        # Request
+        doc.add_paragraph().add_run()  # Empty line
+        request_title = doc.add_paragraph()
+        request_title.add_run("Sonuç ve Talep:").bold = True
+        request = doc.add_paragraph()
+        request.add_run(template_data.get("talep", ""))
+        
+        # Signature
+        doc.add_paragraph().add_run()  # Empty line
+        signature = doc.add_paragraph()
+        signature.add_run("Saygılarımla,")
+        signature.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        
+        # Name
+        name = doc.add_paragraph()
+        name.add_run(template_data.get("ad_soyad", ""))
+        name.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        
+        # Save the document
+        file_path = os.path.join(self.output_dir, f"dava_dilekce_{document_id}.docx")
+        doc.save(file_path)
+        
+        return file_path
+    
+    async def _generate_generic(self, doc, template_name, template_data, document_id):
+        """Generate a generic document based on template data"""
+        # Title
+        title = doc.add_paragraph()
+        title_run = title.add_run(template_name.upper().replace("_", " "))
+        title_run.bold = True
+        title_run.font.size = Pt(14)
+        title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        
+        # Add all template data as content
+        doc.add_paragraph().add_run()  # Empty line
+        
+        for key, value in template_data.items():
+            if value:
+                field = doc.add_paragraph()
+                field.add_run(key.replace("_", " ").title() + ": ").bold = True
+                
+                if isinstance(value, list):
+                    for i, item in enumerate(value, 1):
+                        field.add_run(f"\n{i}. {item}")
+                else:
+                    field.add_run(str(value))
+        
+        # Save the document
+        file_path = os.path.join(self.output_dir, f"{template_name}_{document_id}.docx")
+        doc.save(file_path)
+        
+        return file_path
+    
+    def _sanitize_filename(self, filename):
+        """
+        Sanitize a filename to prevent path traversal attacks
+        """
+        # Remove any directory components
+        filename = os.path.basename(filename)
+        
+        # Remove any potentially dangerous characters
+        filename = re.sub(r'[^\w\-_.]', '_', filename)
+        
+        return filename 
