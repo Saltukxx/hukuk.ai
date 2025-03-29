@@ -1,0 +1,30 @@
+<svg width="120" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g opacity="0.25">
+    <!-- Open Book -->
+    <path d="M60 10V80C46 78 20 72 10 70V10C20 12 46 18 60 20Z" fill="#F5F5F5"/>
+    <path d="M60 10V80C74 78 100 72 110 70V10C100 12 74 18 60 20Z" fill="#F5F5F5"/>
+    
+    <!-- Book Spine -->
+    <path d="M60 10V80" stroke="#D78F23" stroke-width="2"/>
+    
+    <!-- Book Covers -->
+    <path d="M60 10V80C46 78 20 72 10 70V10C20 12 46 18 60 20Z" stroke="#D78F23" stroke-width="2"/>
+    <path d="M60 10V80C74 78 100 72 110 70V10C100 12 74 18 60 20Z" stroke="#D78F23" stroke-width="2"/>
+    
+    <!-- Page Lines - Left Side -->
+    <path d="M20 30C30 32 45 35 55 36" stroke="#D9D9D9" stroke-width="1"/>
+    <path d="M20 40C30 42 45 45 55 46" stroke="#D9D9D9" stroke-width="1"/>
+    <path d="M20 50C30 52 45 55 55 56" stroke="#D9D9D9" stroke-width="1"/>
+    <path d="M20 60C30 62 45 65 55 66" stroke="#D9D9D9" stroke-width="1"/>
+    
+    <!-- Page Lines - Right Side -->
+    <path d="M65 36C75 35 90 32 100 30" stroke="#D9D9D9" stroke-width="1"/>
+    <path d="M65 46C75 45 90 42 100 40" stroke="#D9D9D9" stroke-width="1"/>
+    <path d="M65 56C75 55 90 52 100 50" stroke="#D9D9D9" stroke-width="1"/>
+    <path d="M65 66C75 65 90 62 100 60" stroke="#D9D9D9" stroke-width="1"/>
+    
+    <!-- Law Symbols -->
+    <path d="M40 25C43 25 46 25 49 25M40 28C43 28 46 28 49 28M40 31C43 31 46 31 49 31" stroke="#D78F23" stroke-width="1"/>
+    <path d="M80 25C83 25 86 25 89 25M80 28C83 28 86 28 89 28M80 31C83 31 86 31 89 31" stroke="#D78F23" stroke-width="1"/>
+  </g>
+</svg> 

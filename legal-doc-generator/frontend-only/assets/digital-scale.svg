@@ -1,0 +1,63 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Base with Circuit Pattern -->
+  <rect x="100" y="230" width="100" height="20" rx="5" fill="#1A2F4B"/>
+  <path d="M110 230H120M130 230V250M140 230H150M160 230V250M170 230H180M190 230V250" stroke="#D78F23" stroke-width="1"/>
+  <circle cx="115" cy="240" r="3" fill="#D78F23"/>
+  <circle cx="145" cy="240" r="3" fill="#D78F23"/>
+  <circle cx="175" cy="240" r="3" fill="#D78F23"/>
+  
+  <!-- Center Stem with Digital Display -->
+  <rect x="145" y="180" width="10" height="50" fill="#1A2F4B"/>
+  <rect x="130" y="170" width="40" height="20" rx="3" fill="#1A2F4B" stroke="#D78F23" stroke-width="1.5"/>
+  <path d="M135 180H165" stroke="#D78F23" stroke-width="1"/>
+  <path d="M135 175L165 175" stroke="#D78F23" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="2 2"/>
+  <path d="M135 185L165 185" stroke="#D78F23" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="2 2"/>
+  
+  <!-- Balance Beam -->
+  <rect x="50" y="170" width="200" height="5" rx="2.5" fill="#1A2F4B"/>
+  <circle cx="150" cy="170" r="8" fill="#D78F23"/>
+  <path d="M140 170H160" stroke="#1A2F4B" stroke-width="2"/>
+  <path d="M145 165V175" stroke="#1A2F4B" stroke-width="2"/>
+  <path d="M155 165V175" stroke="#1A2F4B" stroke-width="2"/>
+  
+  <!-- Left Scale - Paragraph/Legal Document -->
+  <line x1="50" y1="170" x2="70" y2="120" stroke="#D78F23" stroke-width="1.5"/>
+  <circle cx="70" cy="120" r="40" fill="#1A2F4B" fill-opacity="0.8" stroke="#D78F23" stroke-width="1.5"/>
+  <rect x="50" y="100" width="40" height="50" rx="2" fill="#F5F5F5" fill-opacity="0.9"/>
+  <line x1="55" y1="110" x2="85" y2="110" stroke="#D9D9D9" stroke-width="1"/>
+  <line x1="55" y1="115" x2="85" y2="115" stroke="#D9D9D9" stroke-width="1"/>
+  <line x1="55" y1="120" x2="85" y2="120" stroke="#D9D9D9" stroke-width="1"/>
+  <line x1="55" y1="125" x2="85" y2="125" stroke="#D9D9D9" stroke-width="1"/>
+  <line x1="55" y1="130" x2="75" y2="130" stroke="#D9D9D9" stroke-width="1"/>
+  <line x1="55" y1="135" x2="75" y2="135" stroke="#D9D9D9" stroke-width="1"/>
+  <path d="M60 95L80 95" stroke="#D78F23" stroke-width="2"/>
+  
+  <!-- Right Scale - Circuit/Technology -->
+  <line x1="250" y1="170" x2="230" y2="120" stroke="#D78F23" stroke-width="1.5"/>
+  <circle cx="230" cy="120" r="40" fill="#1A2F4B" fill-opacity="0.8" stroke="#D78F23" stroke-width="1.5"/>
+  <circle cx="230" cy="120" r="25" fill="none" stroke="#D78F23" stroke-width="1" stroke-dasharray="3 3"/>
+  <path d="M210 110H220V130H240" stroke="#D78F23" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="210" cy="110" r="3" fill="#D78F23"/>
+  <circle cx="240" cy="130" r="3" fill="#D78F23"/>
+  <path d="M220 100V110" stroke="#D78F23" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="220" cy="100" r="3" fill="#D78F23"/>
+  <path d="M240 110H250" stroke="#D78F23" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="250" cy="110" r="3" fill="#D78F23"/>
+  <path d="M230 95V105" stroke="#D78F23" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="230" cy="95" r="3" fill="#D78F23"/>
+  <rect x="215" y="120" width="30" height="5" rx="2.5" fill="#D78F23"/>
+  
+  <!-- Decorative Circuit Lines -->
+  <path d="M50 220C60 210 70 210 80 220C90 230 100 230 110 220" stroke="#D78F23" stroke-opacity="0.3" stroke-width="1"/>
+  <path d="M190 220C200 210 210 210 220 220C230 230 240 230 250 220" stroke="#D78F23" stroke-opacity="0.3" stroke-width="1"/>
+  
+  <!-- Digital Glow Effects -->
+  <circle cx="150" cy="170" r="5" fill="#D78F23" fill-opacity="0.5">
+    <animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="fill-opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="230" cy="120" r="35" fill="#D78F23" fill-opacity="0.1">
+    <animate attributeName="r" values="35;38;35" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="fill-opacity" values="0.1;0.2;0.1" dur="3s" repeatCount="indefinite"/>
+  </circle>
+</svg> 
