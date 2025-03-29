@@ -1,0 +1,24 @@
+[2025-03-22 02:18:14.488006] AI Service log initialized
+--------------------------------------------------------------------------------
+[2025-03-22 02:38:00] [generate_legal_document] [dava_dilekce_1742607480] Started document generation for template: dava_dilekce
+[2025-03-22 02:38:13] [generate_legal_document] [dava_dilekce_1742607493] Started document generation for template: dava_dilekce
+[2025-03-22 02:42:31] [generate_legal_document] [dava_dilekce_1742607751] Started document generation for template: dava_dilekce
+[2025-03-22 02:51:18] [generate_legal_document] [dava_dilekce_1742608278] Started document generation for template: dava_dilekce
+[2025-03-22 15:29:33] [generate_legal_document] [dilekce_1742653773] Started document generation for template: dilekce
+[2025-03-22 15:36:21] [generate_legal_document] [dilekce_1742654181] Started document generation for template: dilekce
+[2025-03-23 14:34:20] [analyze_case] Failed to complete analysis | ERROR: Unexpected error: argument of type 'coroutine' is not iterable
+[2025-03-23 14:34:20] [generate_legal_document] [dilekce_1742736860] Started document generation for template: dilekce
+[2025-03-23 14:43:51] [analyze_case] Analysis completed successfully
+[2025-03-23 14:43:51] [generate_legal_document] [dilekce_1742737431] Started document generation for template: dilekce
+[2025-03-23 15:34:01] [analyze_case] Analysis completed successfully
+[2025-03-23 15:34:01] [generate_legal_document] [dilekce_1742740441] Started document generation for template: dilekce
+[2025-03-23 15:34:23] [analyze_case] Failed to parse JSON response | ERROR: JSON parse error: Expecting value: line 8 column 23 (char 787)
+[2025-03-23 15:34:23] [generate_legal_document] [dilekce_1742740463] Started document generation for template: dilekce
+[2025-03-23 16:04:37] [analyze_case] Analysis completed successfully
+[2025-03-23 16:04:37] [generate_legal_document] [dilekce_1742742277] Started document generation for template: dilekce
+[2025-03-23 16:06:48] [analyze_case] Analysis completed successfully
+[2025-03-23 16:06:48] [generate_legal_document] [dilekce_1742742408] Started document generation for template: dilekce
+[2025-03-23 16:07:04] [analyze_case] Analysis completed successfully
+[2025-03-23 16:07:04] [generate_legal_document] [dilekce_1742742424] Started document generation for template: dilekce
+[2025-03-23 16:08:13] [analyze_case] Analysis completed successfully
+[2025-03-23 16:08:13] [generate_legal_document] [dilekce_1742742493] Started document generation for template: dilekce

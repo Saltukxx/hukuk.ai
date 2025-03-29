@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="320" height="300" viewBox="0 0 320 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background elements -->
+  <circle cx="160" cy="150" r="130" fill="#1A2F4B" fill-opacity="0.05"/>
+  <path d="M60 80C60 80 100 30 170 50C240 70 260 140 240 200S140 260 90 230C40 200 60 150 60 80Z" fill="#D78F23" fill-opacity="0.08"/>
+  
+  <!-- Brain outline -->
+  <g filter="url(#filter0_d)">
+    <path d="M160 60C115 60 80 95 80 140C80 185 115 220 160 220C205 220 240 185 240 140C240 95 205 60 160 60Z" fill="white"/>
+    <path d="M160 60C115 60 80 95 80 140C80 185 115 220 160 220C205 220 240 185 240 140C240 95 205 60 160 60Z" stroke="#1A2F4B" stroke-width="2"/>
+  </g>
+  
+  <!-- Circuit patterns inside brain -->
+  <path d="M100 140C100 140 120 120 140 130C160 140 170 120 190 120C210 120 220 140 220 140" stroke="#D78F23" stroke-width="2" stroke-linecap="round"/>
+  <path d="M100 160C100 160 120 180 140 170C160 160 170 180 190 180C210 180 220 160 220 160" stroke="#D78F23" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Node points -->
+  <circle cx="140" cy="130" r="5" fill="#D78F23"/>
+  <circle cx="190" cy="120" r="5" fill="#D78F23"/>
+  <circle cx="140" cy="170" r="5" fill="#D78F23"/>
+  <circle cx="190" cy="180" r="5" fill="#D78F23"/>
+  
+  <!-- Central node with pulse animation -->
+  <circle cx="160" cy="140" r="15" fill="#1A2F4B"/>
+  <circle cx="160" cy="140" r="25" stroke="#1A2F4B" stroke-width="2" stroke-opacity="0.5"/>
+  <circle cx="160" cy="140" r="35" stroke="#1A2F4B" stroke-width="1" stroke-opacity="0.2"/>
+  
+  <!-- Connection points to document elements -->
+  <path d="M90 100L60 80" stroke="#1A2F4B" stroke-opacity="0.2" stroke-width="2" stroke-dasharray="4 4"/>
+  <path d="M90 180L60 200" stroke="#1A2F4B" stroke-opacity="0.2" stroke-width="2" stroke-dasharray="4 4"/>
+  <path d="M230 100L260 80" stroke="#1A2F4B" stroke-opacity="0.2" stroke-width="2" stroke-dasharray="4 4"/>
+  <path d="M230 180L260 200" stroke="#1A2F4B" stroke-opacity="0.2" stroke-width="2" stroke-dasharray="4 4"/>
+  
+  <!-- Document snippets -->
+  <rect x="40" y="60" width="40" height="50" rx="4" fill="white" stroke="#D78F23" stroke-width="2"/>
+  <path d="M50 70H70M50 80H65M50 90H70" stroke="#1A2F4B" stroke-opacity="0.3" stroke-width="2" stroke-linecap="round"/>
+  
+  <rect x="240" y="60" width="40" height="50" rx="4" fill="white" stroke="#D78F23" stroke-width="2"/>
+  <path d="M250 70H270M250 80H265M250 90H270" stroke="#1A2F4B" stroke-opacity="0.3" stroke-width="2" stroke-linecap="round"/>
+  
+  <rect x="40" y="180" width="40" height="50" rx="4" fill="white" stroke="#D78F23" stroke-width="2"/>
+  <path d="M50 190H70M50 200H65M50 210H70" stroke="#1A2F4B" stroke-opacity="0.3" stroke-width="2" stroke-linecap="round"/>
+  
+  <rect x="240" y="180" width="40" height="50" rx="4" fill="white" stroke="#D78F23" stroke-width="2"/>
+  <path d="M250 190H270M250 200H265M250 210H270" stroke="#1A2F4B" stroke-opacity="0.3" stroke-width="2" stroke-linecap="round"/>
+  
+  <defs>
+    <filter id="filter0_d" x="70" y="54" width="180" height="180" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+      <feOffset dy="4"/>
+      <feGaussianBlur stdDeviation="5"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+    </filter>
+  </defs>
+</svg> 

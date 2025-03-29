@@ -1,0 +1,26 @@
+<svg width="80" height="100" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g opacity="0.25">
+    <!-- Document Background -->
+    <rect x="10" y="10" width="60" height="80" rx="3" fill="#F5F5F5"/>
+    
+    <!-- Document Border -->
+    <rect x="10" y="10" width="60" height="80" rx="3" stroke="#D78F23" stroke-width="1.5"/>
+    
+    <!-- Header Bar -->
+    <rect x="10" y="10" width="60" height="8" rx="3" fill="#D78F23" stroke="#D78F23" stroke-width="1.5"/>
+    
+    <!-- Paragraph Lines -->
+    <line x1="20" y1="30" x2="60" y2="30" stroke="#D9D9D9" stroke-width="2"/>
+    <line x1="20" y1="38" x2="60" y2="38" stroke="#D9D9D9" stroke-width="2"/>
+    <line x1="20" y1="46" x2="60" y2="46" stroke="#D9D9D9" stroke-width="2"/>
+    <line x1="20" y1="54" x2="50" y2="54" stroke="#D9D9D9" stroke-width="2"/>
+    
+    <!-- Signature Section -->
+    <line x1="40" y1="70" x2="60" y2="70" stroke="#D78F23" stroke-width="1.5"/>
+    <line x1="40" y1="75" x2="60" y2="75" stroke="#D9D9D9" stroke-width="1"/>
+    
+    <!-- Official Stamp -->
+    <circle cx="25" cy="75" r="10" stroke="#D78F23" stroke-width="1.5" stroke-dasharray="2 2"/>
+    <path d="M25 65 L25 85 M15 75 L35 75" stroke="#D78F23" stroke-width="0.75" stroke-opacity="0.5"/>
+  </g>
+</svg> 
